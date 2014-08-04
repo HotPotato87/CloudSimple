@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CloudSimple.Core.AlertManager;
 using CloudSimple.Core.ExceptionHandling;
 using CloudSimple.Core.General;
 
-namespace CloudSimple.Core.Azure
+namespace CloudSimple.Azure
 {
     public class AzureStorageExceptionHandler : IExceptionHandler
     {
@@ -22,7 +18,7 @@ namespace CloudSimple.Core.Azure
             _alertManager = alertManager;
         }
 
-        public Task HandleExceptionAsync(Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null)
+        public void HandleExceptionAsync(Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null)
         {
             if (_alertManager != null && alert)
             {

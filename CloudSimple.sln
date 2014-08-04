@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudSimple.Core", "CloudSimple.Core\CloudSimple.Core.csproj", "{F015DEE0-5079-4CC9-99A8-77FBF24FE91C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudSimple.Azure", "CloudSimple.Azure\CloudSimple.Azure.csproj", "{37E51B5E-F095-40DF-9178-36E808185FBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{46222048-AB96-469B-AFB8-144D5D484E8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +19,15 @@ Global
 		{F015DEE0-5079-4CC9-99A8-77FBF24FE91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F015DEE0-5079-4CC9-99A8-77FBF24FE91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F015DEE0-5079-4CC9-99A8-77FBF24FE91C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37E51B5E-F095-40DF-9178-36E808185FBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37E51B5E-F095-40DF-9178-36E808185FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37E51B5E-F095-40DF-9178-36E808185FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37E51B5E-F095-40DF-9178-36E808185FBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F015DEE0-5079-4CC9-99A8-77FBF24FE91C} = {46222048-AB96-469B-AFB8-144D5D484E8F}
 	EndGlobalSection
 EndGlobal

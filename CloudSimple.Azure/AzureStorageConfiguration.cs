@@ -1,4 +1,4 @@
-﻿namespace CloudSimple.Core.Azure
+﻿namespace CloudSimple.Azure
 {
     public class AzureStorageConfiguration
     {

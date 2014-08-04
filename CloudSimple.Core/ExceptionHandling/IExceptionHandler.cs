@@ -9,6 +9,6 @@ namespace CloudSimple.Core.ExceptionHandling
 {
     public interface IExceptionHandler
     {
-        Task HandleExceptionAsync(Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null);
+        void HandleExceptionAsync(Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null);
     }
 }
