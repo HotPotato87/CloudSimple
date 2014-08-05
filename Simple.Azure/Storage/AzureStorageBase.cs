@@ -13,10 +13,12 @@ namespace CloudSimple.Azure
 {
     public class AzureStorageBase
     {
+        public StorageContainerConfiguration Configuration { get; set; }
+
         private readonly string _tableName;
         private readonly AzureStorageConfiguration _config;
         private readonly ConcurrentQueue<TableEntity> _queue = new ConcurrentQueue<TableEntity>();
-        public StorageContainerConfiguration Configuration { get; set; }
+        
         protected AzureStorageBase(string tableName, AzureStorageConfiguration config)
         {
             _tableName = tableName;

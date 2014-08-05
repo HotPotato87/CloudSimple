@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ExceptionHandling\WhenExceptionHandling.cs" />
     <Compile Include="General\AzureStorageTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
