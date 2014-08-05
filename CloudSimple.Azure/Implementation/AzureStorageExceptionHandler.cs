@@ -1,21 +1,20 @@
 ﻿using System;
-using CloudSimple.Core.AlertManager;
-using CloudSimple.Core.ExceptionHandling;
-using CloudSimple.Core.General;
+using CloudSimple.Core;
 
 namespace CloudSimple.Azure
 {
     public class AzureStorageExceptionHandler : IExceptionHandler
     {
-        private readonly AzureStorageConfiguration _config;
+        public StorageContainerConfiguration QueueConfiguration { get; private set; }
+        public AzureStorageConfiguration StorageConfiguration { get; private set; }
+
         private readonly IAlertManager _alertManager;
 
         public AzureStorageExceptionHandler(
-            AzureStorageConfiguration config,
-            IAlertManager alertManager)
+            AzureStorageConfiguration config)
         {
-            _config = config;
-            _alertManager = alertManager;
+            this.StorageConfiguration = config;
+            this.QueueConfiguration = new StorageContainerConfiguration();
         }
 
         public void HandleExceptionAsync(Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null)

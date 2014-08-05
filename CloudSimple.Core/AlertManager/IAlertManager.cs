@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CloudSimple.Core.AlertManager
+namespace CloudSimple.Core
 {
     public interface IAlertManager
     {

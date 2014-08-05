@@ -2,14 +2,14 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{37E51B5E-F095-40DF-9178-36E808185FBC}</ProjectGuid>
+    <ProjectGuid>{F26875DA-CD11-4AEC-A1E0-CF11294299ED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudSimple.Azure</RootNamespace>
-    <AssemblyName>CloudSimple.Azure</AssemblyName>
+    <RootNamespace>CloudSimple.Azure.Tests</RootNamespace>
+    <AssemblyName>CloudSimple.Azure.Tests</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,21 +34,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Compile Include="ExceptionHandling\WhenSingletonExceptionHandling.cs" />
+    <Compile Include="General\AzureStorageTestBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudSimple.Azure\CloudSimple.Azure.csproj">
+      <Project>{37e51b5e-f095-40df-9178-36e808185fbc}</Project>
+      <Name>CloudSimple.Azure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CloudSimple.Core\CloudSimple.Core.csproj">
       <Project>{f015dee0-5079-4cc9-99a8-77fbf24fe91c}</Project>
       <Name>CloudSimple.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Implementation\AzureSimpleContainer.cs" />
-    <Compile Include="Implementation\AzureStorageConfiguration.cs" />
-    <Compile Include="Implementation\AzureStorageExceptionHandler.cs" />
-    <Compile Include="Implementation\AzureLogHandler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
