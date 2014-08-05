@@ -1,9 +1,10 @@
 ﻿using System;
+using CloudSimple.Azure;
 using CloudSimple.Core;
 
 namespace CloudSimple.Azure
 {
-        public class AzureLogHandler : ILogHandler
+        public class AzureLogHandler : AzureStorageBase, ILogHandler
         {
             private AzureStorageConfiguration _config;
 

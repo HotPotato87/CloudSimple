@@ -5,13 +5,20 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudSimple.Core", "CloudSimple.Core\CloudSimple.Core.csproj", "{F015DEE0-5079-4CC9-99A8-77FBF24FE91C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudSimple.Azure", "CloudSimple.Azure\CloudSimple.Azure.csproj", "{37E51B5E-F095-40DF-9178-36E808185FBC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{46222048-AB96-469B-AFB8-144D5D484E8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DF24C001-E8FF-4C75-8337-066B368F7C0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudSimple.Azure.Tests", "CloudSimple.Azure.Tests\CloudSimple.Azure.Tests.csproj", "{F26875DA-CD11-4AEC-A1E0-CF11294299ED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{98F01859-012F-4C0E-9F23-CDCF168A5711}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Azure", "Simple.Azure\Simple.Azure.csproj", "{06A6F6B7-1906-42E9-8332-739D548F5C96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Azure.Tests", "Simple.Azure.Tests\Simple.Azure.Tests.csproj", "{453E43D1-769D-4D5D-9DB0-884B83F03988}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,20 +30,20 @@ Global
 		{F015DEE0-5079-4CC9-99A8-77FBF24FE91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F015DEE0-5079-4CC9-99A8-77FBF24FE91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F015DEE0-5079-4CC9-99A8-77FBF24FE91C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37E51B5E-F095-40DF-9178-36E808185FBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37E51B5E-F095-40DF-9178-36E808185FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37E51B5E-F095-40DF-9178-36E808185FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37E51B5E-F095-40DF-9178-36E808185FBC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F26875DA-CD11-4AEC-A1E0-CF11294299ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F26875DA-CD11-4AEC-A1E0-CF11294299ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F26875DA-CD11-4AEC-A1E0-CF11294299ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F26875DA-CD11-4AEC-A1E0-CF11294299ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06A6F6B7-1906-42E9-8332-739D548F5C96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06A6F6B7-1906-42E9-8332-739D548F5C96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06A6F6B7-1906-42E9-8332-739D548F5C96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06A6F6B7-1906-42E9-8332-739D548F5C96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{453E43D1-769D-4D5D-9DB0-884B83F03988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{453E43D1-769D-4D5D-9DB0-884B83F03988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{453E43D1-769D-4D5D-9DB0-884B83F03988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{453E43D1-769D-4D5D-9DB0-884B83F03988}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F015DEE0-5079-4CC9-99A8-77FBF24FE91C} = {46222048-AB96-469B-AFB8-144D5D484E8F}
-		{F26875DA-CD11-4AEC-A1E0-CF11294299ED} = {DF24C001-E8FF-4C75-8337-066B368F7C0C}
+		{453E43D1-769D-4D5D-9DB0-884B83F03988} = {DF24C001-E8FF-4C75-8337-066B368F7C0C}
 	EndGlobalSection
 EndGlobal

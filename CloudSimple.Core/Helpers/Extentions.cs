@@ -9,9 +9,9 @@ namespace CloudSimple.Core
 {
     public static class Extentions
     {
-        public static void HandleExceptionAsync(this CloudSimpleContainer source, Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null)
+        public static Task HandleExceptionAsync(this CloudSimpleContainer source, Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null)
         {
-            source.ExceptionHandlers.ForEach(x => x.HandleExceptionAsync(e, alert, severity, extra));
+            return Task.WhenAll(source.ExceptionHandlers.Select(exceptionHandler => exceptionHandler.HandleExceptionAsync(e, alert, severity, extra)).Cast<Task>());
         }
 
         public static ExceptionHandlerBuilder ConfigureExceptionHandlers(this CloudSimpleContainer source)
@@ -21,14 +21,14 @@ namespace CloudSimple.Core
 
         public static ExceptionHandlerBuilder WithFlushThreshold(this ExceptionHandlerBuilder source, int thresholdValue)
         {
-            source.Container.ExceptionHandlers.ForEach(x => x.QueueConfiguration.FlushThreshold = thresholdValue);
+            source.Container.ExceptionHandlers.ForEach(x => x.Configuration.FlushThreshold = thresholdValue);
 
             return source;
         }
 
         public static ExceptionHandlerBuilder WithFlushTimer(this ExceptionHandlerBuilder source, TimeSpan interval)
         {
-            source.Container.ExceptionHandlers.ForEach(x => x.QueueConfiguration.FlushTimer = interval);
+            source.Container.ExceptionHandlers.ForEach(x => x.Configuration.FlushTimer = interval);
 
             return source;
         }

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace CloudSimple.Core
 {
-    public interface IExceptionHandler
+    public interface IExceptionHandler : IStorageContainer
     {
-        void HandleExceptionAsync(Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null);
-        StorageContainerConfiguration QueueConfiguration { get; }
+        Task HandleExceptionAsync(Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null);
     }
 }

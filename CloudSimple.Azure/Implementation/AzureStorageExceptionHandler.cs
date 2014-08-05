@@ -3,7 +3,7 @@ using CloudSimple.Core;
 
 namespace CloudSimple.Azure
 {
-    public class AzureStorageExceptionHandler : IExceptionHandler
+    public class AzureStorageExceptionHandler : AzureStorageBase, IExceptionHandler
     {
         public StorageContainerConfiguration QueueConfiguration { get; private set; }
         public AzureStorageConfiguration StorageConfiguration { get; private set; }
@@ -27,7 +27,12 @@ namespace CloudSimple.Azure
 
         private void ContactAlertManager(Exception exception, Severity severity, object extra)
         {
-            
+
         }
+    }
+
+    public class LoggedException
+    {
+        
     }
 }

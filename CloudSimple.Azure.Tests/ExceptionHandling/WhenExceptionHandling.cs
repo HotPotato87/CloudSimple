@@ -13,7 +13,7 @@ namespace CloudSimple.Azure.Tests.ExceptionHandling
         [Test]
         public void ExceptionsLoggedToStorage()
         {
-            AzureSimpleContainer.Configure(base.StorageAccount, base.StorageKey)
+            Azure..Configure(base.StorageAccount, base.StorageKey)
                 .ConfigureExceptionHandlers()
                     .WithFlushThreshold(1);
 
