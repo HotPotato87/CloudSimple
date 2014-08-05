@@ -9,10 +9,6 @@ namespace CloudSimple.Azure
 {
     public class AzureSimpleContainer : CloudSimpleContainer
     {
-        protected new List<IExceptionHandler> ExceptionHandlers { get; set; }
-        protected new List<ILogHandler> LogHandlers { get; set; }
-        protected new List<IAlertManager> AlertHandlers { get; set; }
-
         public static AzureSimpleContainer Configure(string storageKey, string storageAccount)
         {
             var config = new AzureStorageConfiguration(storageAccount, storageKey);
@@ -23,6 +19,13 @@ namespace CloudSimple.Azure
             CloudSimpleContainer.Instance = instance;
 
             return instance;
+        }
+
+        public AzureSimpleContainer()
+        {
+            ExceptionHandlers = new List<IExceptionHandler>();
+            LogHandlers = new List<ILogHandler>();
+            this.AlertHandlers = new List<IAlertManager>();
         }
     }
 }
