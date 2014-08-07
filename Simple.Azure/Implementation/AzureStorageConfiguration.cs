@@ -4,17 +4,10 @@ namespace CloudSimple.Azure
 {
     public class AzureStorageConfiguration
     {
-        public AzureStorageConfiguration(string storageAccount, string storageKey)
+        public AzureStorageConfiguration(string connectionString)
         {
-            this.Account = storageAccount;
-            this.Key = storageKey;
+            this.ConnectionString = connectionString;
         }
-
-        public string Account { get; set; }
-        public string Key { get; set; }
-        public string ConnectionString
-        {
-            get { return String.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}", Account, Key); }
-        }
+        public string ConnectionString { get; set; }
     }
 }

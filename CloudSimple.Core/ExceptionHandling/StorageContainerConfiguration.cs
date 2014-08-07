@@ -15,6 +15,11 @@ namespace CloudSimple.Core
         /// </summary>
         public TimeSpan FlushTimer { get; set; }
 
+        /// <summary>
+        /// Indicates a timeout will be applied to any messages in the queue. Once the timer elapses, any queue items get flushed
+        /// </summary>
+        public bool UseFlushTimer { get; set; }
+
         public StorageContainerConfiguration()
         {
             //defaults

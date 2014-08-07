@@ -14,6 +14,11 @@ namespace CloudSimple.Core
             return Task.WhenAll(source.ExceptionHandlers.Select(exceptionHandler => exceptionHandler.HandleExceptionAsync(e, alert, severity, extra)).Cast<Task>());
         }
 
+        public static void HandleException(this CloudSimpleContainer source, Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null)
+        {
+            source.ExceptionHandlers.ForEach(exceptionHandler => exceptionHandler.HandleException(e, alert, severity, extra));
+        }
+
         public static ExceptionHandlerBuilder ConfigureExceptionHandlers(this CloudSimpleContainer source)
         {
             return new ExceptionHandlerBuilder(source);
@@ -28,7 +33,11 @@ namespace CloudSimple.Core
 
         public static ExceptionHandlerBuilder WithFlushTimer(this ExceptionHandlerBuilder source, TimeSpan interval)
         {
-            source.Container.ExceptionHandlers.ForEach(x => x.Configuration.FlushTimer = interval);
+            source.Container.ExceptionHandlers.ForEach(x =>
+            {
+                x.Configuration.FlushTimer = interval;
+                x.Configuration.UseFlushTimer = true;
+            });
 
             return source;
         }

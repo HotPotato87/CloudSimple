@@ -16,20 +16,24 @@ namespace CloudSimple.Azure
         public AzureStorageExceptionHandler(AzureStorageConfiguration config) : base(_exceptionTableName, config)
         {
             this.StorageConfiguration = config;
-            base.Configuration = new StorageContainerConfiguration();
         }
 
         public async Task HandleExceptionAsync(Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null)
         {
             await Task.Run(() =>
             {
-                if (_alertManager != null && alert)
-                {
-                    ContactAlertManager(e, severity, extra);
-                }
-
-                base.AddToQueue(new LoggedExceptionEntity(e, severity, extra));
+                HandleException(e, alert, severity, extra);
             });
+        }
+
+        public void HandleException(Exception e, bool alert = false, Severity severity = Severity.None, dynamic extra = null)
+        {
+            if (_alertManager != null && alert)
+            {
+                ContactAlertManager(e, severity, extra);
+            }
+
+            base.AddToQueue(new LoggedExceptionEntity(e, severity, extra));
         }
 
         private void ContactAlertManager(Exception exception, Severity severity, object extra)
@@ -52,6 +56,8 @@ namespace CloudSimple.Azure
 
         public string Extra { get; set; }
 
+        public string Source { get; set; }
+
         public LoggedExceptionEntity() {  }
         public LoggedExceptionEntity(Exception exception, Severity severity, object extra)
         {
@@ -59,6 +65,7 @@ namespace CloudSimple.Azure
             RowKey = string.Format("{0:D19}", DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks);
             this.Message = exception.Message;
             this.StackTrace = exception.StackTrace;
+            this.Source = exception.Source;
             this.InnerExceptionMessage = exception.InnerException != null ? exception.InnerException.Message : null;
             this.InnerExceptionStackTrace = exception.InnerException != null ? exception.InnerException.StackTrace : null;
             this.Severity = severity.ToString();

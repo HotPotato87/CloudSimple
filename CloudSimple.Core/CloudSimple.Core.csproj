@@ -36,10 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="AlertManager\IAlertManager.cs" />
     <Compile Include="Builders\BuilderBase.cs" />
     <Compile Include="Builders\ExceptionHandlerBuilder.cs" />

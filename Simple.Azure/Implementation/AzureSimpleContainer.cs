@@ -11,7 +11,12 @@ namespace CloudSimple.Azure
     {
         public static AzureSimpleContainer Configure(string storageKey, string storageAccount)
         {
-            var config = new AzureStorageConfiguration(storageAccount, storageKey);
+            return Configure(String.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}", storageAccount, storageKey));
+        }
+
+        public static AzureSimpleContainer Configure(string storageConnectionString)
+        {
+            var config = new AzureStorageConfiguration(storageConnectionString);
             var instance = new AzureSimpleContainer();
             instance.ExceptionHandlers.Add(new AzureStorageExceptionHandler(config));
             instance.LogHandlers.Add(new AzureLogHandler(config));
