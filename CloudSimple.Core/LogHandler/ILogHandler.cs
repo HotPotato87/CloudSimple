@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace CloudSimple.Core
 {
-    public interface ILogHandler
+    public interface ILogHandler : IStorageContainer
     {
-        void LogMessageAsync(string message);
+        void LogMessageAsync(string message, string category = null, dynamic extra = null)
     }
 }

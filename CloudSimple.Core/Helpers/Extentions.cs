@@ -19,21 +19,31 @@ namespace CloudSimple.Core
             source.ExceptionHandlers.ForEach(exceptionHandler => exceptionHandler.HandleException(e, alert, severity, extra));
         }
 
-        public static ExceptionHandlerBuilder ConfigureExceptionHandlers(this CloudSimpleContainer source)
+        public static void LogMessage(this CloudSimpleContainer source, string messageText)
         {
-            return new ExceptionHandlerBuilder(source);
+            source.LogHandlers.ForEach(logHandler => logHandler.LogMessageAsync(messageText));
         }
 
-        public static ExceptionHandlerBuilder WithFlushThreshold(this ExceptionHandlerBuilder source, int thresholdValue)
+        public static StorageContainerHandlerBuilder ConfigureExceptionHandlers(this CloudSimpleContainer source)
         {
-            source.Container.ExceptionHandlers.ForEach(x => x.Configuration.FlushThreshold = thresholdValue);
+            return new StorageContainerHandlerBuilder(source, x=>x.ExceptionHandlers);
+        }
+
+        public static StorageContainerHandlerBuilder ConfigureLogHandlers(this CloudSimpleContainer source)
+        {
+            return new StorageContainerHandlerBuilder(source, x => x.LogHandlers);
+        }
+
+        public static StorageContainerHandlerBuilder WithFlushThreshold(this StorageContainerHandlerBuilder source, int thresholdValue)
+        {
+            source.Handlers.ForEach(x => x.Configuration.FlushThreshold = thresholdValue);
 
             return source;
         }
 
-        public static ExceptionHandlerBuilder WithFlushTimer(this ExceptionHandlerBuilder source, TimeSpan interval)
+        public static StorageContainerHandlerBuilder WithFlushTimer(this StorageContainerHandlerBuilder source, TimeSpan interval)
         {
-            source.Container.ExceptionHandlers.ForEach(x =>
+            source.Handlers.ForEach(x =>
             {
                 x.Configuration.FlushTimer = interval;
                 x.Configuration.UseFlushTimer = true;

@@ -38,7 +38,7 @@
   <ItemGroup>
     <Compile Include="AlertManager\IAlertManager.cs" />
     <Compile Include="Builders\BuilderBase.cs" />
-    <Compile Include="Builders\ExceptionHandlerBuilder.cs" />
+    <Compile Include="Builders\StorageContainerHandlerBuilder.cs" />
     <Compile Include="CloudSimpleContainer.cs" />
     <Compile Include="ExceptionHandling\IExceptionHandler.cs" />
     <Compile Include="ExceptionHandling\IStorageContainer.cs" />

@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionHandling\WhenExceptionHandling.cs" />
+    <Compile Include="ExceptionHandling\WhenLogging.cs" />
     <Compile Include="General\AzureStorageTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
