@@ -19,9 +19,9 @@ namespace CloudSimple.Core
             source.ExceptionHandlers.ForEach(exceptionHandler => exceptionHandler.HandleException(e, alert, severity, extra));
         }
 
-        public static void LogMessage(this CloudSimpleContainer source, string messageText)
+        public static void LogMessage(this CloudSimpleContainer source, string messageText, string key = null, dynamic extra = null)
         {
-            source.LogHandlers.ForEach(logHandler => logHandler.LogMessageAsync(messageText));
+            source.LogHandlers.ForEach(logHandler => logHandler.LogMessageAsync(messageText, key, extra));
         }
 
         public static StorageContainerHandlerBuilder ConfigureExceptionHandlers(this CloudSimpleContainer source)

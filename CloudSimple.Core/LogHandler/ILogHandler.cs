@@ -7,6 +7,6 @@ namespace CloudSimple.Core
 {
     public interface ILogHandler : IStorageContainer
     {
-        void LogMessageAsync(string message, string category = null, dynamic extra = null)
+        void LogMessageAsync(string message, string key = null, dynamic extra = null);
     }
 }

@@ -24,6 +24,7 @@ namespace CloudSimple.Core
         {
             //defaults
             FlushThreshold = 20;
+            UseFlushTimer = true;
             FlushTimer = TimeSpan.FromMinutes(1);
         }
     }

@@ -21,6 +21,10 @@ namespace CloudSimple.Azure.Tests.General
         {
             get { return "exceptions"; }
         }
+        public string LogTableName
+        {
+            get { return "logs"; }
+        }
 
         [TestFixtureSetUp]
         public virtual void OnFixtureSetup()
@@ -29,14 +33,19 @@ namespace CloudSimple.Azure.Tests.General
             this.StorageAccount = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==+d9Q25nKo1LJ+ncOTFcoRPlJ/wlIV/q2IxiABTvEX2lRRAg/YucW6QOvjV+peY5Jsaw==";
             this.StorageEndpoint = "http://127.0.0.1:10000";
             this.StorageConnectionString = "UseDevelopmentStorage=true";
+            this.StorageConnectionString = String.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}",
+                "drawboardlogsuat",
+                "46WYxSt6T0gzlg2oM9Jbt/AaTOmaHftYLVKG7gUjDQGCXJ4OfXpo9Xe4ej2TCUGrugjMScAF8bauUgUznHGBXA==");
 
-            ClearStorage("exceptions");
+            ClearStorage(ExceptionTableName);
+            ClearStorage(LogTableName);
         }
 
         [SetUp]
         public virtual void OnSetup()
         {
-            ClearStorage("exceptions");
+            ClearStorage(ExceptionTableName);
+            ClearStorage(LogTableName);
         }
 
         protected void ClearStorage(string name)
@@ -48,6 +57,7 @@ namespace CloudSimple.Azure.Tests.General
             {
                 tableReference.Delete();    
             }
+
         }
 
         protected List<T> GetAllFromStorage<T>(string tableName) where T : ITableEntity,new()

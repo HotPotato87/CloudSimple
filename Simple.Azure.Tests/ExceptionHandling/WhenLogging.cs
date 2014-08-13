@@ -16,6 +16,9 @@ namespace CloudSimple.Azure.Tests.ExceptionHandling
                     .WithFlushThreshold(1);
 
             AzureSimpleContainer.Instance.LogMessage("This is a log message");
+
+            var items = base.GetAllFromStorage<LogMessageEntity>(LogTableName);
+            Assert.IsTrue(items.Count == 1);
         }
 
         [Test]
@@ -25,7 +28,15 @@ namespace CloudSimple.Azure.Tests.ExceptionHandling
                 .ConfigureLogHandlers()
                     .WithFlushThreshold(1);
 
-            AzureSimpleContainer.Instance.LogMessage("Categorized Messages", "This is a log message");
+            string message = "This is a log message";
+            string category = "Categorized Messages";
+            AzureSimpleContainer.Instance.LogMessage(message, key:category);
+
+            var items = base.GetAllFromStorage<LogMessageEntity>(LogTableName);
+            var item = items[0];
+
+            Assert.IsTrue(item.Category == category);
+            Assert.IsTrue(item.Message == message);
         }
     }
 }
