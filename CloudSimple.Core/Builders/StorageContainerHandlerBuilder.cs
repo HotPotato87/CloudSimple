@@ -12,4 +12,16 @@ namespace CloudSimple.Core.Builders
         {
         }
     }
+
+    public class LogHandlerBuilder : StorageContainerHandlerBuilder
+    {
+        public LogHandlerBuilder(CloudSimpleContainer source, Func<CloudSimpleContainer, IEnumerable<IStorageContainer>> handlerSelector) : base(source, handlerSelector)
+        {
+        }
+
+        public List<ILogHandler> LogHandlers
+        {
+            get { return base.Handlers.OfType<ILogHandler>().ToList(); }
+        } 
+    }
 }

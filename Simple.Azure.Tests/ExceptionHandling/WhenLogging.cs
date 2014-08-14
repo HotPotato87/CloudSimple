@@ -38,5 +38,51 @@ namespace CloudSimple.Azure.Tests.ExceptionHandling
             Assert.IsTrue(item.Category == category);
             Assert.IsTrue(item.Message == message);
         }
+
+        [Test]
+        public async Task WhenLogMessage_CanChooseADifferentPartitionField()
+        {
+            AzureSimpleContainer.Configure(base.StorageConnectionString)
+                .ConfigureLogHandlers()
+                    .PartitionBy<User>(x=>x.Email)
+                    .WithFlushThreshold(1);
+
+            string emailAddress = "myemail@email.com";
+            string message = "This is a log message";
+            string category = "Categorized Messages";
+            AzureSimpleContainer.Instance.LogMessage(message, meta:new User() { Email = emailAddress});
+
+            var items = base.GetAllFromStorage<LogMessageEntity>(LogTableName);
+            var item = items[0];
+
+            Assert.IsTrue(item.PartitionKey == emailAddress);
+        }
+
+        [Test]
+        public async Task WhenLogMessage_MetaCanBeReconstructed()
+        {
+            AzureSimpleContainer.Configure(base.StorageConnectionString)
+                .ConfigureLogHandlers()
+                    .PartitionBy<User>(x => x.Email)
+                    .WithFlushThreshold(1);
+
+            string emailAddress = "myemail@email.com";
+            string message = "This is a log message";
+            string category = "Categorized Messages";
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = emailAddress, Firstname = "first", Lastname = "last"});
+
+            var items = base.GetAllFromStorage<LogMessageEntity>(LogTableName);
+            var item = items[0];
+
+            Assert.IsTrue(item.GetMeta<User>().Firstname == "first");
+            Assert.IsTrue(item.GetMeta<User>().Lastname == "last");
+        }
+
+        public class User
+        {
+            public string Email { get; set; }
+            public string Firstname { get; set; }
+            public string Lastname { get; set; }
+        }
     }
 }

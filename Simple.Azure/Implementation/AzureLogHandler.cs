@@ -18,7 +18,7 @@ namespace CloudSimple.Azure
 
         public void LogMessageAsync(string message, string key = null, dynamic extra = null)
         {
-            base.AddToQueue(new LogMessageEntity(message, key, extra));
+            base.AddToQueue(new LogMessageEntity(message, base.PartitionSelector != null && extra != null ? base.PartitionSelector(extra) :  key, extra));
         }
     }
 
@@ -26,7 +26,7 @@ namespace CloudSimple.Azure
     {
         public string Message { get; set; }
 
-        public object Extra { get; set; }
+        public string Meta { get; set; }
 
         public string Category
         {
@@ -40,7 +40,12 @@ namespace CloudSimple.Azure
             this.Message = message;
             PartitionKey = key ?? "";
             RowKey = string.Format("{0:D19}", DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks);
-            Extra = JsonConvert.SerializeObject(extra);
+            Meta = JsonConvert.SerializeObject(extra);
+        }
+
+        public T GetMeta<T>()
+        {
+            return JsonConvert.DeserializeObject<T>(Meta);
         }
     }
 }

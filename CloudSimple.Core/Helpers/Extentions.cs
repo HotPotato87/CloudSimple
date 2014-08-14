@@ -19,9 +19,9 @@ namespace CloudSimple.Core
             source.ExceptionHandlers.ForEach(exceptionHandler => exceptionHandler.HandleException(e, alert, severity, extra));
         }
 
-        public static void LogMessage(this CloudSimpleContainer source, string messageText, string key = null, dynamic extra = null)
+        public static void LogMessage(this CloudSimpleContainer source, string messageText, string key = null, dynamic meta = null)
         {
-            source.LogHandlers.ForEach(logHandler => logHandler.LogMessageAsync(messageText, key, extra));
+            source.LogHandlers.ForEach(logHandler => logHandler.LogMessageAsync(messageText, key, meta));
         }
 
         public static StorageContainerHandlerBuilder ConfigureExceptionHandlers(this CloudSimpleContainer source)
@@ -29,14 +29,21 @@ namespace CloudSimple.Core
             return new StorageContainerHandlerBuilder(source, x=>x.ExceptionHandlers);
         }
 
-        public static StorageContainerHandlerBuilder ConfigureLogHandlers(this CloudSimpleContainer source)
+        public static LogHandlerBuilder ConfigureLogHandlers(this CloudSimpleContainer source)
         {
-            return new StorageContainerHandlerBuilder(source, x => x.LogHandlers);
+            return new LogHandlerBuilder(source, x => x.LogHandlers);
         }
 
         public static StorageContainerHandlerBuilder WithFlushThreshold(this StorageContainerHandlerBuilder source, int thresholdValue)
         {
             source.Handlers.ForEach(x => x.Configuration.FlushThreshold = thresholdValue);
+
+            return source;
+        }
+
+        public static StorageContainerHandlerBuilder PartitionBy<T>(this LogHandlerBuilder source, Func<T, string> selector) where T : class, new()
+        {
+            source.LogHandlers.ForEach(x => x.PartitionSelector = t=>selector((T)t));
 
             return source;
         }

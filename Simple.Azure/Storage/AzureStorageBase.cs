@@ -15,6 +15,7 @@ namespace CloudSimple.Azure
     public class AzureStorageBase
     {
         public StorageContainerConfiguration Configuration { get; set; }
+        public Func<object, string> PartitionSelector { get; set; }
 
         private readonly string _tableName;
         private readonly AzureStorageConfiguration _config;

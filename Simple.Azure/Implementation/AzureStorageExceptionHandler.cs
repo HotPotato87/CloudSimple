@@ -40,6 +40,8 @@ namespace CloudSimple.Azure
         {
 
         }
+
+        public Func<object, object> PartitionSelector { get; set; }
     }
 
     public class LoggedExceptionEntity : TableEntity
