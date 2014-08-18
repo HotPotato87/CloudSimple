@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using CloudSimple.Azure;
 using CloudSimple.Core;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -22,22 +23,41 @@ namespace CloudSimple.Azure
 
         private void RetreivePartitionValues()
         {
+            //get the partition fields
             throw new NotImplementedException();
 
+            //update state
             _currentState = State.Ready;
+
+            //flush the buffer
+            _initBuffer.ForEach(x=>x());
         }
 
         public void LogMessageAsync(string message, string key = null, dynamic extra = null)
         {
-            if (_currentState == State.Ready)
-            {
-                base.AddToQueue(new LogMessageEntity(message, base.PartitionSelector != null && extra != null ? base.PartitionSelector(extra) : key, extra));
-            }
-            else
-            {
-                
-            }
+            //add to queue (either buffer or now)
+            Action addToQueueAction = () => this.HandleNewLogMessage(new LogMessageEntity(message, base.PartitionSelector != null && extra != null ? base.PartitionSelector(extra) : key, extra));
             
+            switch (_currentState)
+            {
+                case State.Ready:
+                    addToQueueAction();
+                    break;
+                default:
+                    _initBuffer.Add(addToQueueAction);
+                    break;
+            }
+
+            //handle any 
+        }
+
+        private void HandleNewLogMessage(LogMessageEntity logMessageEntity)
+        {
+            //handle new partitions 
+            RIP this out should be it's own azure container
+
+            //handle 
+            this.AddToQueue(logMessageEntity);
         }
 
         private enum State
