@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
 using CloudSimple.Azure.Tests.General;
 using CloudSimple.Core;
+using Microsoft.WindowsAzure.Storage.File;
 using NUnit.Framework;
 
 namespace CloudSimple.Azure.Tests.ExceptionHandling
@@ -76,6 +78,90 @@ namespace CloudSimple.Azure.Tests.ExceptionHandling
 
             Assert.IsTrue(item.GetMeta<User>().Firstname == "first");
             Assert.IsTrue(item.GetMeta<User>().Lastname == "last");
+        }
+
+        [Test]
+        public async Task WhenNewPartitionField_FirstPartitionFieldIsStored()
+        {
+            AzureSimpleContainer.Configure(base.StorageConnectionString)
+               .ConfigureLogHandlers()
+                   .PartitionBy<User>(x => x.Email)
+                   .WithFlushThreshold(1);
+
+            string emailAddress = "myemail@email.com";
+            string message = "This is a log message";
+            string category = "Categorized Messages";
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = emailAddress, Firstname = "first", Lastname = "last" });
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = emailAddress, Firstname = "first", Lastname = "last" });
+
+            var items = base.GetAllFromStorage<PartitionValueEntity>(LogPartitionTableName);
+
+            Assert.IsTrue(items.Count(x => x.PartitionKey == emailAddress) == 1);
+        }
+
+        [Test]
+        public async Task WhenNewPartitionField_FirstPartitionIsOnlyStoredOnce()
+        {
+            AzureSimpleContainer.Configure(base.StorageConnectionString)
+               .ConfigureLogHandlers()
+                   .PartitionBy<User>(x => x.Email)
+                   .WithFlushThreshold(1);
+
+            string emailAddress = "myemail@email.com";
+            string message = "This is a log message";
+            string category = "Categorized Messages";
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = emailAddress, Firstname = "first", Lastname = "last" });
+
+            var items = base.GetAllFromStorage<PartitionValueEntity>(LogPartitionTableName);
+
+            Assert.IsTrue(items.Count(x => x.PartitionKey == emailAddress)==1);
+        }
+
+        [Test]
+        public async Task WhenNewPartitionField_SecondPartitionIsStored()
+        {
+            AzureSimpleContainer.Configure(base.StorageConnectionString)
+               .ConfigureLogHandlers()
+                   .PartitionBy<User>(x => x.Email)
+                   .WithFlushThreshold(1);
+
+            string emailAddress = "myemail@email.com";
+            string message = "This is a log message";
+            var secondEmail = "secondEmail";
+            string category = "Categorized Messages";
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = emailAddress, Firstname = "first", Lastname = "last" });
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = secondEmail, Firstname = "first", Lastname = "last" });
+
+            var items = base.GetAllFromStorage<PartitionValueEntity>(LogPartitionTableName);
+
+            Assert.IsTrue(items.Count(x => x.PartitionKey == emailAddress) == 2);
+            Assert.IsTrue(items.Any(x => x.PartitionKey == secondEmail));
+            Assert.IsTrue(items.Any(x => x.PartitionKey == emailAddress));
+        }
+
+        [Test]
+        public async Task WhenNewPartitionField_SecondPartitionIsStoredOnce()
+        {
+            AzureSimpleContainer.Configure(base.StorageConnectionString)
+               .ConfigureLogHandlers()
+                   .PartitionBy<User>(x => x.Email)
+                   .WithFlushThreshold(1);
+
+            string emailAddress = "myemail@email.com";
+            string message = "This is a log message";
+            var secondEmail = "secondEmail";
+            string category = "Categorized Messages";
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = emailAddress, Firstname = "first", Lastname = "last" });
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = secondEmail, Firstname = "first", Lastname = "last" });
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = secondEmail, Firstname = "first", Lastname = "last" });
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = secondEmail, Firstname = "first", Lastname = "last" });
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = secondEmail, Firstname = "first", Lastname = "last" });
+
+            var items = base.GetAllFromStorage<PartitionValueEntity>(LogPartitionTableName);
+
+            Assert.IsTrue(items.Count(x => x.PartitionKey == emailAddress) == 2);
+            Assert.IsTrue(items.Any(x => x.PartitionKey == secondEmail));
+            Assert.IsTrue(items.Any(x => x.PartitionKey == emailAddress));
         }
 
         public class User

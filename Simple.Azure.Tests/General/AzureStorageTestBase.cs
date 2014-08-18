@@ -10,7 +10,6 @@ using NUnit.Framework;
 
 namespace CloudSimple.Azure.Tests.General
 {
-    [TestFixture]
     public class AzureStorageTestBase
     {
         protected string StorageAccount { get; set; }
@@ -24,6 +23,11 @@ namespace CloudSimple.Azure.Tests.General
         public string LogTableName
         {
             get { return "logs"; }
+        }
+
+        public string LogPartitionTableName
+        {
+            get { return "logpartitions"; }
         }
 
         [TestFixtureSetUp]
