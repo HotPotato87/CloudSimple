@@ -25,9 +25,12 @@ namespace CloudSimple.Azure
 
         public void LogMessageAsync(string message, string key = null, dynamic extra = null)
         {
-            this.AddToQueue(new LogMessageEntity(message, base.PartitionSelector != null && extra != null ? base.PartitionSelector(extra) : key, extra));
+            this.AddToQueue(new LogMessageEntity(message, base.PartitionSelector != null && extra != null ?
+                    base.PartitionSelector(extra) : 
+                    (key ?? "Generic")
+                , extra));
 
-            if (PartitionSelector != null)
+            if (PartitionSelector != null && extra != null)
             {
                 _paritionHandler.HandlePartition(base.PartitionSelector(extra));
             }

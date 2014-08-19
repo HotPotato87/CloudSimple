@@ -62,6 +62,24 @@ namespace CloudSimple.Azure.Tests.ExceptionHandling
         }
 
         [Test]
+        public async Task WhenLogMessage_CanConfigurePartitionButNotStore()
+        {
+            AzureSimpleContainer.Configure(base.StorageConnectionString)
+                .ConfigureLogHandlers()
+                    .PartitionBy<User>(x => x.Email)
+                    .WithFlushThreshold(1);
+
+            string emailAddress = "myemail@email.com";
+            string message = "This is a log message";
+            string category = "Categorized Messages";
+            AzureSimpleContainer.Instance.LogMessage(message, meta: new User() { Email = emailAddress });
+            AzureSimpleContainer.Instance.LogMessage(message);
+
+            var items = base.GetAllFromStorage<LogMessageEntity>(LogTableName);
+            Assert.IsTrue(items.Count == 2);
+        }
+
+        [Test]
         public async Task WhenLogMessage_MetaCanBeReconstructed()
         {
             AzureSimpleContainer.Configure(base.StorageConnectionString)
