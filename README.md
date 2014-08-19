@@ -73,7 +73,7 @@ catch (Exception eX)
 }
 ```
 
-####Step 3. Configuring the container
+####More : Configuring the container
 
 To ensure performance, the simple container will not sync the data to Azure every log/exception. By default, it will sync every 60 seconds, or if the number of locally stored objects reaches over 20.
 
@@ -95,14 +95,14 @@ AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
         .WithFlushThreshold(5);
 ```
 
-**Disable the flush timer **
+**Disable the flush timer**
 ```
 AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
     .ConfigureLogHandlers()
         .DisableFlushTimer();
 ```
 
-**Change the flush timer to every 2 minutes **
+**Change the flush timer to every 2 minutes**
 ```
 AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
     .ConfigureLogHandlers()
