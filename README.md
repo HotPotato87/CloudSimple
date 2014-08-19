@@ -28,21 +28,21 @@ in the startup of your program.
 
 ####Step 3. Log messages/exceptions
 
-####### Logging
+###### Logging
 
-*Simple Logging*
+**Simple Logging**
 
 ```
 AzureSimpleContainer.Instance.LogMessage("test message");
 ```
 
-*Categorized Logging (partitioned by category)*
+**Categorized Logging (partitioned by category)**
 
 ```
 AzureSimpleContainer.Instance.LogMessage("test message", category:"sports");
 ```
 
-*Storing additional data with the log messages*
+**Storing additional data with the log messages**
 
 
 ```
@@ -57,5 +57,18 @@ AzureSimpleContainer.Instance.LogMessage(message, meta:new User() { Email = emai
 
 Note : user in this case will be stored as a json string in an additional field
 
-####### Exception Handling
+###### Exception Handling
+
+***Simple exception handling***
+```
+try
+{
+    throw new DivideByZeroException();
+}
+catch (Exception eX)
+{
+    CloudSimpleContainer.Instance.HandleException(eX);
+}
+```
+
 
