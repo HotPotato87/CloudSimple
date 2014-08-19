@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using CloudSimple.Core;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Simple.Azure.Helpers;
 
@@ -45,6 +46,15 @@ namespace CloudSimple.Azure
                 FlushQueue();
             }
         }
+
+        protected IEnumerable<T> RetrieveValues<T>() where T : TableEntity, new()
+        {
+            var cloudBlob = CloudStorageAccount.Parse(_config.ConnectionString);
+            var tableClient = cloudBlob.CreateCloudTableClient();
+            var tableReference = tableClient.GetTableReference(_tableName);
+            if (!tableReference.Exists()) { return new List<T>(); }
+            return tableReference.CreateQuery<T>().ToList();
+        } 
 
         private void Initialise()
         {

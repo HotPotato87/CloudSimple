@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cloud.Simple.Azure.Implementation;
 using CloudSimple.Core;
 
 namespace CloudSimple.Azure
@@ -19,7 +20,10 @@ namespace CloudSimple.Azure
             var config = new AzureStorageConfiguration(storageConnectionString);
             var instance = new AzureSimpleContainer();
             instance.ExceptionHandlers.Add(new AzureStorageExceptionHandler(config));
-            instance.LogHandlers.Add(new AzureLogHandler(config));
+            
+            var partitionHandler = new AzureLogPartitionHandler(config);
+            instance.LogHandlers.Add(new AzureLogHandler(config, partitionHandler));
+            partitionHandler.Configuration.FlushThreshold = 1;
 
             CloudSimpleContainer.Instance = instance;
 

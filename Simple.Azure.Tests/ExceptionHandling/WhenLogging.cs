@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Cloud.Simple.Azure.Implementation;
 using CloudSimple.Azure.Tests.General;
 using CloudSimple.Core;
 using Microsoft.WindowsAzure.Storage.File;
@@ -32,7 +33,7 @@ namespace CloudSimple.Azure.Tests.ExceptionHandling
 
             string message = "This is a log message";
             string category = "Categorized Messages";
-            AzureSimpleContainer.Instance.LogMessage(message, key:category);
+            AzureSimpleContainer.Instance.LogMessage(message, category:category);
 
             var items = base.GetAllFromStorage<LogMessageEntity>(LogTableName);
             var item = items[0];
@@ -134,7 +135,7 @@ namespace CloudSimple.Azure.Tests.ExceptionHandling
 
             var items = base.GetAllFromStorage<PartitionValueEntity>(LogPartitionTableName);
 
-            Assert.IsTrue(items.Count(x => x.PartitionKey == emailAddress) == 2);
+            Assert.IsTrue(items.Count() == 2);
             Assert.IsTrue(items.Any(x => x.PartitionKey == secondEmail));
             Assert.IsTrue(items.Any(x => x.PartitionKey == emailAddress));
         }
@@ -159,7 +160,7 @@ namespace CloudSimple.Azure.Tests.ExceptionHandling
 
             var items = base.GetAllFromStorage<PartitionValueEntity>(LogPartitionTableName);
 
-            Assert.IsTrue(items.Count(x => x.PartitionKey == emailAddress) == 2);
+            Assert.IsTrue(items.Count() == 2);
             Assert.IsTrue(items.Any(x => x.PartitionKey == secondEmail));
             Assert.IsTrue(items.Any(x => x.PartitionKey == emailAddress));
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using Cloud.Simple.Azure.Implementation;
 using CloudSimple.Azure;
 using CloudSimple.Core;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -11,71 +12,29 @@ namespace CloudSimple.Azure
 {
     public class AzureLogHandler : AzureStorageBase, ILogHandler
     {
+        private readonly AzureLogPartitionHandler _paritionHandler;
         private static string _tableName = "logs";
-        private static State _currentState = State.Initializing;
-        private static List<Action> _initBuffer = new List<Action>();
 
-        public AzureLogHandler(AzureStorageConfiguration config)
+        public AzureLogHandler(
+            AzureStorageConfiguration config,
+            AzureLogPartitionHandler paritionHandler)
             : base(_tableName, config)
         {
-            this.RetreivePartitionValues();
-        }
-
-        private void RetreivePartitionValues()
-        {
-            //get the partition fields
-            throw new NotImplementedException();
-
-            //update state
-            _currentState = State.Ready;
-
-            //flush the buffer
-            _initBuffer.ForEach(x=>x());
+            _paritionHandler = paritionHandler;
         }
 
         public void LogMessageAsync(string message, string key = null, dynamic extra = null)
         {
-            //add to queue (either buffer or now)
-            Action addToQueueAction = () => this.HandleNewLogMessage(new LogMessageEntity(message, base.PartitionSelector != null && extra != null ? base.PartitionSelector(extra) : key, extra));
-            
-            switch (_currentState)
+            this.AddToQueue(new LogMessageEntity(message, base.PartitionSelector != null && extra != null ? base.PartitionSelector(extra) : key, extra));
+
+            if (PartitionSelector != null)
             {
-                case State.Ready:
-                    addToQueueAction();
-                    break;
-                default:
-                    _initBuffer.Add(addToQueueAction);
-                    break;
+                _paritionHandler.HandlePartition(base.PartitionSelector(extra));
             }
-
-            //handle any 
-        }
-
-        private void HandleNewLogMessage(LogMessageEntity logMessageEntity)
-        {
-            //handle new partitions 
-            RIP this out should be it's own azure container
-
-            //handle 
-            this.AddToQueue(logMessageEntity);
-        }
-
-        private enum State
-        {
-            Initializing,
-            Ready
-        };
-    }
-
-    public class PartitionValueEntity : TableEntity
-    {
-        public PartitionValueEntity() {}
-        public PartitionValueEntity(string partitionName)
-        {
-            this.PartitionKey = partitionName;
-            RowKey = string.Format("{0:D19}", DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks);
         }
     }
+
+    
 
     public class LogMessageEntity : TableEntity
     {

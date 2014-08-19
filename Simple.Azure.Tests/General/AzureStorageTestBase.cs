@@ -38,15 +38,20 @@ namespace CloudSimple.Azure.Tests.General
             this.StorageEndpoint = "http://127.0.0.1:10000";
             this.StorageConnectionString = "UseDevelopmentStorage=true";
 
-            ClearStorage(ExceptionTableName);
-            ClearStorage(LogTableName);
+            Clear();
         }
 
         [SetUp]
         public virtual void OnSetup()
         {
+            Clear();
+        }
+
+        private void Clear()
+        {
             ClearStorage(ExceptionTableName);
             ClearStorage(LogTableName);
+            ClearStorage(LogPartitionTableName);
         }
 
         protected void ClearStorage(string name)

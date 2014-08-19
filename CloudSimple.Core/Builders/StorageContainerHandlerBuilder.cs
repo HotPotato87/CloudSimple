@@ -22,6 +22,8 @@ namespace CloudSimple.Core.Builders
         public List<ILogHandler> LogHandlers
         {
             get { return base.Handlers.OfType<ILogHandler>().ToList(); }
-        } 
+        }
+
+        
     }
 }

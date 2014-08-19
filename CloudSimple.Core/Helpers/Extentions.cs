@@ -19,9 +19,9 @@ namespace CloudSimple.Core
             source.ExceptionHandlers.ForEach(exceptionHandler => exceptionHandler.HandleException(e, alert, severity, extra));
         }
 
-        public static void LogMessage(this CloudSimpleContainer source, string messageText, string key = null, dynamic meta = null)
+        public static void LogMessage(this CloudSimpleContainer source, string messageText, string category = null, dynamic meta = null)
         {
-            source.LogHandlers.ForEach(logHandler => logHandler.LogMessageAsync(messageText, key, meta));
+            source.LogHandlers.ForEach(logHandler => logHandler.LogMessageAsync(messageText, category, meta));
         }
 
         public static StorageContainerHandlerBuilder ConfigureExceptionHandlers(this CloudSimpleContainer source)
@@ -37,6 +37,13 @@ namespace CloudSimple.Core
         public static StorageContainerHandlerBuilder WithFlushThreshold(this StorageContainerHandlerBuilder source, int thresholdValue)
         {
             source.Handlers.ForEach(x => x.Configuration.FlushThreshold = thresholdValue);
+
+            return source;
+        }
+
+        public static StorageContainerHandlerBuilder DisableFlushTimer(this StorageContainerHandlerBuilder source)
+        {
+            source.Handlers.ForEach(x => x.Configuration.UseFlushTimer = false);
 
             return source;
         }
