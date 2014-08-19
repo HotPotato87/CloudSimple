@@ -16,15 +16,17 @@ Make sure to copy down the account name & key. You can retrieve this from the Az
 
 Using Visual Studio pull down the nuget package Cloud.Simple.Azure. 
 
-Whether running within a website, or a desktop application it runs as a singleton, in which you can use a fluent syntax to configure.
+```
+Install-Package Cloud.Simple.Azure
+```
 
-The simplest configuration is to write 
+In the initialization of your program, simply pass in your storage account name and key.
 
 ```
 AzureSimpleContainer.Configure("[AccountName]", "[AccountKey]");
 ```
 
-in the startup of your program.
+Now you can use the container. All operations are via a singleton instance.
 
 ####Step 3. Log messages/exceptions
 
@@ -59,7 +61,7 @@ Note : user in this case will be stored as a json string in an additional field
 
 ###### Exception Handling
 
-***Simple exception handling***
+**Simple exception handling**
 ```
 try
 {
@@ -71,4 +73,38 @@ catch (Exception eX)
 }
 ```
 
+####Step 3. Configuring the container
 
+To ensure performance, the simple container will not sync the data to Azure every log/exception. By default, it will sync every 60 seconds, or if the number of locally stored objects reaches over 20.
+
+Of course, these values can be configured via a fluent syntax in the configuration of the container (where you passed in the storage keys)
+
+**Commit changes every exception**
+
+```
+AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
+    .ConfigureExceptionHandlers()
+        .WithFlushThreshold(1);
+```
+
+**Commit changes every 5 log messages**
+
+```
+AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
+    .ConfigureLogHandlers()
+        .WithFlushThreshold(5);
+```
+
+**Disable the flush timer **
+```
+AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
+    .ConfigureLogHandlers()
+        .DisableFlushTimer();
+```
+
+**Change the flush timer to every 2 minutes **
+```
+AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
+    .ConfigureLogHandlers()
+        .WithFlushTimer(TimeSpan.FromMinutes(2));
+```
