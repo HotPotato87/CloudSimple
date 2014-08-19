@@ -30,23 +30,17 @@ Now you can use the container. All operations are via a singleton instance.
 
 ####Step 3. Log messages/exceptions
 
-###### Logging
-
 **Simple Logging**
-
 ```
 AzureSimpleContainer.Instance.LogMessage("test message");
 ```
 
 **Categorized Logging (partitioned by category)**
-
 ```
 AzureSimpleContainer.Instance.LogMessage("test message", category:"sports");
 ```
 
 **Storing additional data with the log messages**
-
-
 ```
 public class User
 {
@@ -80,7 +74,6 @@ To ensure performance, the simple container will not sync the data to Azure ever
 Of course, these values can be configured via a fluent syntax in the configuration of the container (where you passed in the storage keys)
 
 **Commit changes every exception**
-
 ```
 AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
     .ConfigureExceptionHandlers()
@@ -88,7 +81,6 @@ AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
 ```
 
 **Commit changes every 5 log messages**
-
 ```
 AzureSimpleContainer.Configure("[AccountName]","[AccountKey]")
     .ConfigureLogHandlers()
